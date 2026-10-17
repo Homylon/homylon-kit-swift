@@ -1,45 +1,19 @@
-// This device's local and public IPv4 addresses, e.g. to show in an app's header.
-// The same code as the Homylon Engine's IPAddressFetcher.
+// This device's local IPv4 addresses, e.g. to show in an app's header.
+//
+// The kit contacts nothing outside the house: there is no lookup of the public (internet)
+// address here, because that would make every app built with the kit call some server.
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
-public let PublicIPAddressFetchedNotification = "PublicIPAddressFetched"
 public let LocalIPAddressesFetchedNotification = "LocalIPAddressesFetched"
 
 public final class IPAddressFetcher {
-
-    private static let publicIPURL = URL(string: "https://www.bluewindsolution.com/tools/getpublicip.php")!
-
-    /// Posts PublicIPAddressFetched with userInfo["PublicIPAddress"]; nothing on failure.
-    public static func getPublicIPAddress() {
-        getPublicIPAddress { publicIP, _ in
-            guard let publicIP = publicIP else { return }
-            NotificationCenter.default.post(name: Notification.Name(PublicIPAddressFetchedNotification),
-                                            object: nil, userInfo: ["PublicIPAddress": publicIP])
-        }
-    }
 
     /// Posts LocalIPAddressesFetched with userInfo["LocalIPAddresses"].
     public static func getLocalIPAddresses() {
         getLocalIPAddresses { addresses in
             NotificationCenter.default.post(name: Notification.Name(LocalIPAddressesFetchedNotification),
                                             object: nil, userInfo: ["LocalIPAddresses": addresses])
-        }
-    }
-
-    public static func getPublicIPAddress(completion: @escaping (String?, Error?) -> Void) {
-        DispatchQueue.global().async {
-            do {
-                let publicIP = try String(contentsOf: publicIPURL, encoding: .utf8)
-                    .trimmingCharacters(in: .whitespaces)
-                DispatchQueue.main.async { completion(publicIP, nil) }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-                DispatchQueue.main.async { completion(nil, error) }
-            }
         }
     }
 

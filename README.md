@@ -25,11 +25,11 @@ the master" - are in [homylon-protocol](https://github.com/Homylon/homylon-proto
 ## Use
 
 Add the package in Xcode (File > Add Package Dependencies) with
-`https://github.com/Homylon/homylon-kit-swift`, from version 1.0.1, and `import HomylonKit`.
+`https://github.com/Homylon/homylon-kit-swift`, from version 1.0.2, and `import HomylonKit`.
 In a Package.swift:
 
 ```swift
-.package(url: "https://github.com/Homylon/homylon-kit-swift", from: "1.0.1")
+.package(url: "https://github.com/Homylon/homylon-kit-swift", from: "1.0.2")
 ```
 
 Minimum: iOS 12, macOS 11.7, tvOS 12; on Linux, Swift 5.9 or later. The Homylon Monitor app
